@@ -5,7 +5,7 @@ dotenv.config();
 
 const MONGODB_URL: string = process.env.MONGODB_URL || "";
 
-const db = async () => {
+const connectToMongoDB = async () => {
   try {
     if (!MONGODB_URL) {
       throw new Error("MONGODB_URL is not defined in the .env file");
@@ -17,4 +17,4 @@ const db = async () => {
   }
 };
 
-export default db;
+export default connectToMongoDB;
