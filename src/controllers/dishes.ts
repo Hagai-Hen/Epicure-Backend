@@ -1,11 +1,94 @@
 import { Request, Response } from "express";
+import Dish from "../models/Dish";
 
-export const getAllDishes = async (req: Request, res: Response) => {};
+export const getAllDishes = async (req: Request, res: Response) => {
+    try {
+        const dishes = await Dish.find({})
 
-export const getDish = async (req: Request, res: Response) => {};
+        if (!dishes) return res.status(200).json([]) as any;
+        res.status(200).json(dishes);
 
-export const updateDish = async (req: Request, res: Response) => {};
+    } catch (error) {
+        console.log("error getting dishes: ", (error as Error).message);
+        res.status(500).send({ error: "Internal server error" });
+    }
+};
 
-export const deleteDish = async (req: Request, res: Response) => {};
+export const getDish = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const dish = await Dish.findById(id);
 
-export const createDish = async (req: Request, res: Response) => {};
+        if (!dish) return res.status(200).json([]) as any;
+        res.status(200).json(dish);
+
+    } catch (error) {
+        console.log("error getting dish: ", (error as Error).message);
+        res.status(500).send({ error: "Internal server error" });
+    }
+};
+
+export const updateDish = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const updateData = req.body;
+        const updatedDish = await Dish.findByIdAndUpdate({ _id: id }, updateData, { new: true });
+
+        if (!updatedDish) {
+            return res.status(404).json({ message: 'Dish not found' }) as any;
+        }
+
+        res.status(200).json(updatedDish);
+    } catch (error) {
+        console.log("Error updating Dish: ", (error as Error).message);
+        res.status(500).send({ error: "Internal server error" });
+    }
+};
+
+export const deleteDish = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id;
+        const deletedDish = await Dish.findByIdAndDelete(id);
+
+        if (!deletedDish) {
+            return res.status(404).json({ message: 'Dish not found' }) as any;
+        }
+
+        return res.status(200).json({
+            message: 'Dish deleted successfully',
+            dish: deletedDish,
+          });
+    } catch (error) {
+        console.log("Error deleting dish: ", (error as Error).message);
+        res.status(500).send({ error: "Internal server error" });
+    }
+};
+
+export const createDish = async (req: Request, res: Response) => {
+    try {
+        const { name, price, ingredients, tags, restaurant } = req.body;
+
+        if (!name) {
+            return res.status(400).send({ error: 'name is required' });
+        }
+
+        const newDish = new Dish({
+            name: name,
+            price: price,
+            ingredients: ingredients,
+            tags: tags,
+            restaurant: restaurant,
+        })
+
+        if (!newDish) {
+            return res.status(400).send({ error: 'cannot create new dish' }) as any;
+        }
+
+        await newDish.save();
+
+        res.status(201).json(newDish) as any;
+    } catch (error) {
+        console.log("error create dish: ", (error as Error).message);
+        res.status(400).json({ error: "Internal server error" });
+    }
+};

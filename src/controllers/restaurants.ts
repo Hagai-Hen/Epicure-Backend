@@ -66,7 +66,7 @@ export const deleteRestaurant = async (req: Request, res: Response) => {
 
 export const createRestaurant = async (req: Request, res: Response) => {
     try {
-        const { name, img } = req.body;
+        const { name, img, chef, dishes } = req.body;
 
         if (!name) {
             return res.status(400).send({ error: 'name required' });
@@ -74,7 +74,9 @@ export const createRestaurant = async (req: Request, res: Response) => {
 
         const newRestaurant = new Restaurant({
             name: name,
-            img: img
+            img: img,
+            chef: chef,
+            dishes: dishes
         })
 
         if (!newRestaurant) {
@@ -85,7 +87,7 @@ export const createRestaurant = async (req: Request, res: Response) => {
 
         res.status(201).json(newRestaurant) as any;
     } catch (error) {
-        console.log("error create Category: ", (error as Error).message);
+        console.log("error create restaurant: ", (error as Error).message);
         res.status(400).json({ error: "Internal server error" });
     }
 };

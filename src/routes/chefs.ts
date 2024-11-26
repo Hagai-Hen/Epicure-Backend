@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/create", createChef);
 router.get("/get/:id", getChef);
-router.get("/get", getAllChefs);
+router.get("/getAll", getAllChefs);
 router.put("/update/:id", updateChef);
 router.delete("/delete/:id", deleteChef);
 
