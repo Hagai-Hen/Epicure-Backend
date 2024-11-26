@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 const RestaurantSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: true,
   },
   img: {
     type: String,
@@ -10,6 +11,7 @@ const RestaurantSchema = new mongoose.Schema({
   chef: {
     type: Schema.Types.ObjectId,
     ref: "Chef",
+    required: true,
   },
   dishes: [
     {
@@ -19,6 +21,6 @@ const RestaurantSchema = new mongoose.Schema({
   ],
 });
 
-const Restaurant = mongoose.model("Restaurants", RestaurantSchema);
+const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
 
 export default Restaurant;

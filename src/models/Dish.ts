@@ -3,12 +3,15 @@ import mongoose, { Schema } from "mongoose";
 const DishSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: true,
   },
   price: {
     type: Number,
+    required: true,
   },
   ingredients: {
     type: String,
+    required: true,
   },
   tags: [
     {
@@ -18,6 +21,7 @@ const DishSchema = new mongoose.Schema({
   restaurant: {
     type: Schema.Types.ObjectId,
     ref: "Restaurant",
+    required: true,
   },
 });
 

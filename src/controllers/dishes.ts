@@ -82,8 +82,8 @@ export const createDish = async (req: Request, res: Response) => {
 
         if (!name) {
             return res.status(400).send({ error: 'name is required' });
-        } else if (!price) {
-            return res.status(400).send({ error: 'price is required' });
+        } else if (!price && price > 0) {
+            return res.status(400).send({ error: 'price suppose to be valid number' });
         } else if (!ingredients) {
             return res.status(400).send({ error: 'ingredients is required' });
         } if (!restaurant) {

@@ -3,12 +3,14 @@ import mongoose, { Schema } from "mongoose";
 const ChefSchema = new mongoose.Schema({
   name: {
     type: String,
+    required: true,
   },
   img: {
     type: String,
   },
   description: {
     type: String,
+    required: true,
   },
   restaurants: [
     {
