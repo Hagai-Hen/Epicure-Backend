@@ -70,6 +70,8 @@ export const createChef = async (req: Request, res: Response) => {
 
         if (!name) {
             return res.status(400).send({ error: 'name is required' });
+        } else if (!description) {
+            return res.status(400).send({ error: 'description is required' });
         }
 
         const newChef = new Chef({

@@ -32,7 +32,7 @@ export const updateRestaurant = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
         const updateData = req.body;
-        const updatedRestaurant = await Restaurant.findByIdAndUpdate({ _id: id }, updateData, { new: true });
+        const updatedRestaurant = await Restaurant.findOneAndUpdate({ _id: id }, updateData, { new: true });
 
         if (!updatedRestaurant) {
             return res.status(404).json({ message: 'Restaurant not found' }) as any;
@@ -69,7 +69,9 @@ export const createRestaurant = async (req: Request, res: Response) => {
         const { name, img, chef, dishes } = req.body;
 
         if (!name) {
-            return res.status(400).send({ error: 'name required' });
+            return res.status(400).send({ error: 'Name is required' });
+        } else if (!chef) {
+            return res.status(400).send({ error: 'Chef is required' });
         }
 
         const newRestaurant = new Restaurant({

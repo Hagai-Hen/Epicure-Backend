@@ -32,11 +32,23 @@ export const updateDish = async (req: Request, res: Response) => {
     try {
         const id = req.params.id;
         const updateData = req.body;
-        const updatedDish = await Dish.findByIdAndUpdate({ _id: id }, updateData, { new: true });
+        const dish = await Dish.findById(id);
 
-        if (!updatedDish) {
+        if (!dish) {
             return res.status(404).json({ message: 'Dish not found' }) as any;
         }
+
+        if (updateData.tags) {
+            updateData.tags = updateData.tags.map((tag: string) => tag.toLowerCase());
+            const invalidTags = updateData.tags.filter((tag: string) => !['spicy', 'vegan', 'vegetarian'].includes(tag));
+            if (invalidTags.length > 0) {
+                return res.status(400).send({ error: `Invalid tag(s): ${invalidTags.join(', ')}` });
+            }
+            
+            updateData.tags = [... new Set(updateData.tags)]
+        }
+
+        const updatedDish = await Dish.findByIdAndUpdate(id, updateData, { new: true });
 
         res.status(200).json(updatedDish);
     } catch (error) {
@@ -70,13 +82,31 @@ export const createDish = async (req: Request, res: Response) => {
 
         if (!name) {
             return res.status(400).send({ error: 'name is required' });
+        } else if (!price) {
+            return res.status(400).send({ error: 'price is required' });
+        } else if (!ingredients) {
+            return res.status(400).send({ error: 'ingredients is required' });
+        } if (!restaurant) {
+            return res.status(400).send({ error: 'restaurant is required' });
+        }
+
+        let newTags;
+
+        if (tags) {
+            newTags = tags.map((tag: string) => tag.toLowerCase());
+            const invalidTags = newTags.filter((tag: string) => !['spicy', 'vegan', 'vegetarian'].includes(tag));
+            if (invalidTags.length > 0) {
+                return res.status(400).send({ error: `Invalid tag(s): ${invalidTags.join(', ')}` });
+            }
+
+            newTags = [... new Set(newTags)]
         }
 
         const newDish = new Dish({
             name: name,
             price: price,
             ingredients: ingredients,
-            tags: tags,
+            tags: newTags,
             restaurant: restaurant,
         })
 
