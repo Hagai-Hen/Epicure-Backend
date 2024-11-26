@@ -12,8 +12,8 @@ const router = express.Router();
 
 router.post("/create", createRestaurant);
 router.get("/get/:id", getRestaurant);
-router.get("/get", getAllRestaurants);
+router.get("/getAll", getAllRestaurants);
 router.put("/update/:id", updateRestaurant);
 router.delete("/delete/:id", deleteRestaurant);
 
-export default router;
+export default router; 

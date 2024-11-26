@@ -9,7 +9,7 @@ const RestaurantSchema = new mongoose.Schema({
   },
   chef: {
     type: Schema.Types.ObjectId,
-    ref: "Restaurant",
+    ref: "Chef",
   },
   dishes: [
     {
@@ -19,6 +19,6 @@ const RestaurantSchema = new mongoose.Schema({
   ],
 });
 
-const Restaurant = mongoose.model("Restaurant", RestaurantSchema);
+const Restaurant = mongoose.model("Restaurants", RestaurantSchema);
 
 export default Restaurant;
