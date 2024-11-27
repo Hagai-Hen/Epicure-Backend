@@ -5,3 +5,10 @@ export interface DishInterface {
   tags: string[];
   restaurant: string;
 }
+
+export interface RestaurantInterface {
+  name: string;
+  img: string;
+  chef: string;
+  dishes: string[];
+}
