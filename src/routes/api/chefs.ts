@@ -6,7 +6,7 @@ import {
   getAllChefs,
   updateChef,
   deleteChef,
-} from "../controllers/chefs";
+} from "../../controllers/chefs";
 
 const router = express.Router();
 

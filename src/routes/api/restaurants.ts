@@ -6,7 +6,7 @@ import {
   getRestaurant,
   updateRestaurant,
   deleteRestaurant,
-} from "../controllers/restaurants";
+} from "../../controllers/restaurants";
 
 const router = express.Router();
 

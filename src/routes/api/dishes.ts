@@ -6,7 +6,7 @@ import {
   getAllDishes,
   updateDish,
   deleteDish,
-} from "../controllers/dishes";
+} from "../../controllers/dishes";
 
 const router = express.Router();
 
