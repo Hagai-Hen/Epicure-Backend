@@ -90,3 +90,39 @@ export const validateUpdateDish = (
     throw new Error("price must have positive number");
   }
 };
+
+export const validateCreateChef = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name, img, description, restaurants } = req.body;
+
+  if (!name || name.length < 3) {
+    throw new Error("Name must have at least 3 characters");
+  }
+  if (!description || description.length < 3) {
+    throw new Error("Description must have at least 3 characters");
+  }
+};
+
+export const validateUpdateChef = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name, img, description, restaurants } = req.body;
+
+  if ((name && name.length < 3) || name === "") {
+    throw new Error("Name must have at least 3 characters");
+  }
+  if ((img && img.length < 3) || img === "") {
+    throw new Error("Image not valid");
+  }
+  if ((description && description.length < 3) || description === "") {
+    throw new Error("Name must have at least 3 characters");
+  }
+  if (restaurants && restaurants.length < 1) {
+    throw new Error("Restaurants must contain at least 1 item");
+  }
+};

@@ -27,8 +27,6 @@ export const updateChefHandler = async (
     throw new Error("Chef not exists");
   }
 
-  checkUpdateChef(updateData);
-
   const updatedChef = await Chef.findByIdAndUpdate(id, updateData, {
     new: true,
   });
@@ -47,8 +45,6 @@ export const createChefHandler = async (chef: ChefInterface) => {
   if (!chef) {
     throw new Error("Chef not valid");
   }
-
-  checkCreateChef(chef);
 
   const newChef = new Chef({
     name: chef.name,
