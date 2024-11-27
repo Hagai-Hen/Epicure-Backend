@@ -49,10 +49,10 @@ export const deleteDish = async (req: Request, res: Response) => {
 
     const deletedDish = await deleteDishHandler(id);
 
-    return res.status(200).json({
+    res.status(200).json({
       message: "Dish deleted successfully",
       dish: deletedDish,
-    }) as any;
+    });
   } catch (error) {
     console.log("Error deleting dish: ", (error as Error).message);
     res.status(500).send({ error: "Internal server error" });

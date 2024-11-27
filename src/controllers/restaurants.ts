@@ -46,10 +46,10 @@ export const deleteRestaurant = async (req: Request, res: Response) => {
     const id = req.params.id;
     const deletedRestaurant = await deleteRestaurantHandler(id);
 
-    return res.status(200).json({
+    res.status(200).json({
       message: "Restaurant deleted successfully",
       restaurant: deletedRestaurant,
-    }) as any;
+    });
   } catch (error) {
     console.log("Error deleting Restaurant: ", (error as Error).message);
     res.status(500).send({ error: "Internal server error" });
@@ -60,9 +60,14 @@ export const createRestaurant = async (req: Request, res: Response) => {
   try {
     const { name, img, chef, dishes } = req.body;
 
-    const newRestaurant = await createRestaurantHandler({ name, img, chef, dishes });
+    const newRestaurant = await createRestaurantHandler({
+      name,
+      img,
+      chef,
+      dishes,
+    });
 
-    res.status(201).json(newRestaurant) as any;
+    res.status(201).json(newRestaurant);
   } catch (error) {
     console.log("error create restaurant: ", (error as Error).message);
     res.status(400).json({ error: "Internal server error" });
