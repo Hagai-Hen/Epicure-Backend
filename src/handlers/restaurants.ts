@@ -1,8 +1,4 @@
 import Restaurant from "../models/Restaurant";
-import {
-  checkCreateRestaurant,
-  checkUpdateRestaurant,
-} from "../services/restaurants";
 import { RestaurantInterface } from "../interfaces";
 
 export const getAllRestaurantsHandler = async () => {
@@ -30,8 +26,6 @@ export const updateRestaurantHandler = async (
     throw new Error("Restaurant not exists");
   }
 
-  checkUpdateRestaurant(updateData);
-
   const updatedRestaurant = await Restaurant.findByIdAndUpdate(id, updateData, {
     new: true,
   });
@@ -53,8 +47,6 @@ export const createRestaurantHandler = async (
     throw new Error("Restaurant not valid");
   }
 
-  checkCreateRestaurant(restaurant);
-
   const newRestaurant = new Restaurant({
     name: restaurant.name,
     img: restaurant.img,
@@ -67,6 +59,5 @@ export const createRestaurantHandler = async (
   }
 
   await newRestaurant.save();
-
   return newRestaurant;
 };
