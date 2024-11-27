@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   createRestaurantHandler,
   deleteRestaurantHandler,
@@ -7,28 +7,28 @@ import {
   getAllRestaurantsHandler,
 } from "../handlers/restaurants";
 
-export const getAllRestaurants = async (req: Request, res: Response) => {
+export const getAllRestaurants = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const restaurants = await getAllRestaurantsHandler();
     res.status(200).json(restaurants);
   } catch (error) {
     console.log("error getting restaurants: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    next(error);
   }
 };
 
-export const getRestaurant = async (req: Request, res: Response) => {
+export const getRestaurant = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     const restaurant = await getRestaurantHandler(id);
     res.status(200).json(restaurant);
   } catch (error) {
     console.log("error getting restaurant: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    next(error);
   }
 };
 
-export const updateRestaurant = async (req: Request, res: Response) => {
+export const updateRestaurant = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     const updateData = req.body;
@@ -37,11 +37,11 @@ export const updateRestaurant = async (req: Request, res: Response) => {
     res.status(200).json(updatedRestaurant);
   } catch (error) {
     console.log("Error updating Restaurant: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    next(error);
   }
 };
 
-export const deleteRestaurant = async (req: Request, res: Response) => {
+export const deleteRestaurant = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     const deletedRestaurant = await deleteRestaurantHandler(id);
@@ -52,11 +52,11 @@ export const deleteRestaurant = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("Error deleting Restaurant: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    next(error);
   }
 };
 
-export const createRestaurant = async (req: Request, res: Response) => {
+export const createRestaurant = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, img, chef, dishes } = req.body;
 
@@ -70,6 +70,6 @@ export const createRestaurant = async (req: Request, res: Response) => {
     res.status(201).json(newRestaurant);
   } catch (error) {
     console.log("error create restaurant: ", (error as Error).message);
-    res.status(400).json({ error: "Internal server error" });
+    next(error);
   }
 };
