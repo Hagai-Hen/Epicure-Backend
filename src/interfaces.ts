@@ -12,3 +12,10 @@ export interface RestaurantInterface {
   chef: string;
   dishes: string[];
 }
+
+export interface ChefInterface {
+  name: string;
+  img: string;
+  description: string;
+  restaurants: string[];
+}
