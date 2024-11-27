@@ -26,7 +26,6 @@ export const updateDishHandler = async (
   if (!dish) {
     throw new Error("Dish not exists");
   }
-  checkUpdateDish(updateData);
   if (updateData.tags) {
     updateData.tags = updateData.tags.map((tag: string) => tag.toLowerCase());
     updateData.tags = [...new Set(updateData.tags)];
@@ -49,7 +48,6 @@ export const createDishHandler = async (dish: DishInterface) => {
   if (!dish) {
     throw new Error("Dish not valid");
   }
-  checkCreateDish(dish);
   dish.tags = dish.tags.map((tag: string) => tag.toLowerCase());
   dish.tags = [...new Set(dish.tags)];
 

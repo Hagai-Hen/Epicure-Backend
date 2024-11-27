@@ -36,3 +36,57 @@ export const validateUpdateRestaurant = (
 
   next();
 };
+
+export const validateCreateDish = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name, ingredients, tags, price } = req.body;
+
+  if (!name || name.length < 3) {
+    throw new Error("Name must have at least 3 characters");
+  }
+  if (!ingredients || ingredients.length < 3) {
+    throw new Error("Ingredients not valid");
+  }
+  if (tags) {
+    const newTags = tags.map((tag: string) => tag.toLowerCase());
+    const invalidTags = newTags.filter(
+      (tag: string) => !["spicy", "vegan", "vegetarian"].includes(tag)
+    );
+    if (invalidTags.length > 0) {
+      throw new Error(`Invalid tag(s): ${invalidTags.join(", ")}`);
+    }
+  }
+  if (!price || price < 0) {
+    throw new Error("price must have positive number");
+  }
+};
+
+export const validateUpdateDish = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { name, ingredients, tags, price } = req.body;
+
+  if ((name && name.length < 3) || name === "") {
+    throw new Error("Name must have at least 3 characters");
+  }
+  if ((ingredients && ingredients.length < 3) || ingredients === "") {
+    throw new Error("Ingredients not valid");
+  }
+  if (tags) {
+    const newTags = tags.map((tag: string) => tag.toLowerCase());
+    const invalidTags = newTags.filter(
+      (tag: string) => !["spicy", "vegan", "vegetarian"].includes(tag)
+    );
+    if (invalidTags.length > 0) {
+      throw new Error(`Invalid tag(s): ${invalidTags.join(", ")}`);
+    }
+  }
+  if (price && price < 0) {
+    throw new Error("price must have positive number");
+  }
+};
