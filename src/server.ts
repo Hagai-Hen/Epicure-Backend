@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import connectToMongoDB from "./db/connect";
 import { logger } from "./middlewares/logger";
+import { notFound } from "./middlewares/notFound";
 
 import apiRoute from "./routes/api";
 import { errorHandler } from "./middlewares/error";
@@ -19,6 +20,7 @@ app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript with Express!");
 });
 
+app.use(notFound);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
