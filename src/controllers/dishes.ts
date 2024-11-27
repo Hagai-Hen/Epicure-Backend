@@ -1,5 +1,4 @@
-import { Request, Response } from "express";
-import Dish from "../models/Dish";
+import { NextFunction, Request, Response } from "express";
 import {
   createDishHandler,
   deleteDishHandler,
@@ -8,28 +7,40 @@ import {
   updateDishHandler,
 } from "../handlers/dishes";
 
-export const getAllDishes = async (req: Request, res: Response) => {
+export const getAllDishes = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const dishes = await getAllDishesHandler();
     res.status(200).json(dishes);
   } catch (error) {
     console.log("error getting dishes: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    next(error);
   }
 };
 
-export const getDish = async (req: Request, res: Response) => {
+export const getDish = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = req.params.id;
     const dish = await getDishHandler(id);
     res.status(200).json(dish);
   } catch (error) {
     console.log("error getting dish: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    next(error);
   }
 };
 
-export const updateDish = async (req: Request, res: Response) => {
+export const updateDish = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = req.params.id;
     const updateData = req.body;
@@ -39,11 +50,15 @@ export const updateDish = async (req: Request, res: Response) => {
     res.status(200).json(updatedDish);
   } catch (error) {
     console.log("Error updating Dish: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    next(error);
   }
 };
 
-export const deleteDish = async (req: Request, res: Response) => {
+export const deleteDish = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const id = req.params.id;
 
@@ -55,11 +70,15 @@ export const deleteDish = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("Error deleting dish: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    next(error);
   }
 };
 
-export const createDish = async (req: Request, res: Response) => {
+export const createDish = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { name, price, ingredients, tags, restaurant } = req.body;
 
@@ -74,6 +93,6 @@ export const createDish = async (req: Request, res: Response) => {
     res.status(201).json(newDish);
   } catch (error) {
     console.log("error create dish: ", (error as Error).message);
-    res.status(400).json({ error: "Internal server error" });
+    next(error);
   }
 };

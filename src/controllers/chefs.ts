@@ -1,19 +1,19 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Chef from "../models/Chef";
 import { createChefHandler, deleteChefHandler, getAllChefsHandler, getChefHandler, updateChefHandler } from "../handlers/chefs";
 
-export const getAllChefs = async (req: Request, res: Response) => {
+export const getAllChefs = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const Chefs = await getAllChefsHandler();
         res.status(200).json(Chefs);
 
     } catch (error) {
         console.log("error getting Chefs: ", (error as Error).message);
-        res.status(500).send({ error: "Internal server error" });
+        next(error);
     }
 };
 
-export const getChef = async (req: Request, res: Response) => {
+export const getChef = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id;
         const chef = await getChefHandler(id);
@@ -21,11 +21,11 @@ export const getChef = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.log("error getting chef: ", (error as Error).message);
-        res.status(500).send({ error: "Internal server error" });
+        next(error);
     }
 };
 
-export const updateChef = async (req: Request, res: Response) => {
+export const updateChef = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id;
         const updateData = req.body;
@@ -34,11 +34,11 @@ export const updateChef = async (req: Request, res: Response) => {
         res.status(200).json(updatedChef);
     } catch (error) {
         console.log("Error updating chef: ", (error as Error).message);
-        res.status(500).send({ error: "Internal server error" });
+        next(error);
     }
 };
 
-export const deleteChef = async (req: Request, res: Response) => {
+export const deleteChef = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const id = req.params.id;
         const deletedChef = await deleteChefHandler(id);
@@ -49,11 +49,11 @@ export const deleteChef = async (req: Request, res: Response) => {
           });
     } catch (error) {
         console.log("Error deleting chef: ", (error as Error).message);
-        res.status(500).send({ error: "Internal server error" });
+        next(error);
     }
 };
 
-export const createChef = async (req: Request, res: Response) => {
+export const createChef = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { name, img, description, restaurants } = req.body;
 
@@ -62,6 +62,6 @@ export const createChef = async (req: Request, res: Response) => {
         res.status(201).json(newChef);
     } catch (error) {
         console.log("error create chef: ", (error as Error).message);
-        res.status(400).json({ error: "Internal server error" });
+        next(error);
     }
 };
