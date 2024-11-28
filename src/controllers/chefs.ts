@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import Chef from "../models/Chef";
 import { createChefHandler, deleteChefHandler, getAllChefsHandler, getChefHandler, updateChefHandler } from "../handlers/chefs";
 
 export const getAllChefs = async (req: Request, res: Response) => {
@@ -62,6 +61,6 @@ export const createChef = async (req: Request, res: Response) => {
         res.status(201).json(newChef);
     } catch (error) {
         console.log("error create chef: ", (error as Error).message);
-        res.status(400).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Internal server error" });
     }
 };

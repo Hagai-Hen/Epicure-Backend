@@ -74,6 +74,6 @@ export const createDish = async (req: Request, res: Response) => {
     res.status(201).json(newDish);
   } catch (error) {
     console.log("error create dish: ", (error as Error).message);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };

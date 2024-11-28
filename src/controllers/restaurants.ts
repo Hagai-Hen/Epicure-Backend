@@ -70,6 +70,6 @@ export const createRestaurant = async (req: Request, res: Response) => {
     res.status(201).json(newRestaurant);
   } catch (error) {
     console.log("error create restaurant: ", (error as Error).message);
-    res.status(400).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error" });
   }
 };
