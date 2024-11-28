@@ -19,6 +19,15 @@ const RestaurantSchema = new mongoose.Schema({
       ref: "Dish",
     },
   ],
+  rate: {
+    type: Number,
+    min: 1,
+    max: 5,
+    required: true,
+  },
+  chef_name: {
+    type: String,
+  }
 });
 
 const Restaurant = mongoose.model("Restaurant", RestaurantSchema);

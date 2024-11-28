@@ -22,4 +22,9 @@ export const checkCreateRestaurant = (restaurant: RestaurantInterface) => {
   if (!restaurant.chef) {
     throw new Error("Chef is required");
   }
+  if (!restaurant.rate) {
+    throw new Error("Rate is required");
+  } else if (restaurant.rate < 1 || restaurant.rate > 5) {
+    throw new Error("Rate must be between 1 to 5");
+  }
 };

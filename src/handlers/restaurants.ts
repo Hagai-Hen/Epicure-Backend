@@ -4,6 +4,7 @@ import {
   checkUpdateRestaurant,
 } from "../services/restaurants";
 import { RestaurantInterface } from "../interfaces";
+import { getChefHandler, updateChefHandler } from "./chefs";
 
 export const getAllRestaurantsHandler = async () => {
   const restaurants = await Restaurant.find({});
@@ -60,7 +61,14 @@ export const createRestaurantHandler = async (
     img: restaurant.img,
     chef: restaurant.chef,
     dishes: restaurant.dishes,
+    rate: restaurant.rate
   });
+
+  const chef = await getChefHandler(restaurant.chef)
+  if (!chef) throw new Error ("Chef not exists");
+  chef.restaurants.push(newRestaurant._id)
+  updateChefHandler(restaurant.chef, chef);
+  newRestaurant.chef_name = chef.name
 
   if (!newRestaurant) {
     throw new Error("can't create new restaurant");

@@ -7,6 +7,7 @@ const ChefSchema = new mongoose.Schema({
   },
   img: {
     type: String,
+    default: null,
   },
   description: {
     type: String,
