@@ -3,15 +3,17 @@ import dotenv from "dotenv";
 import connectToMongoDB from "./db/connect";
 import swaggerUi from "swagger-ui-express";
 import apiRoute from "./routes/api";
-import swaggerDocument from "./swagger.json";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerDefinitions from "./swagger.json";
 
 dotenv.config();
 
 const app = express();
 
 const PORT: number = Number(process.env.PORT) || 5000;
+const swaggerSpec = swaggerJSDoc(swaggerDefinitions);
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.json());
 app.use("/api", apiRoute);
 
