@@ -13,6 +13,9 @@ export const checkUpdateRestaurant = (restaurant: RestaurantInterface) => {
   if (restaurant.dishes && restaurant.dishes.length < 1) {
     throw new Error("Dishes must contain at least 1 dish");
   }
+  if (restaurant.rate && restaurant.rate > 5 && restaurant.rate < 1) {
+    throw new Error("Rate must be between 1 to 5");
+  }
 };
 
 export const checkCreateRestaurant = (restaurant: RestaurantInterface) => {

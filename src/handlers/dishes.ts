@@ -59,6 +59,7 @@ export const createDishHandler = async (dish: DishInterface) => {
     ingredients: dish.ingredients,
     tags: dish.tags,
     restaurant: dish.restaurant,
+    img: dish.img,
   });
 
   if (!newDish) {

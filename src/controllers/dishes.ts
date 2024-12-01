@@ -61,7 +61,7 @@ export const deleteDish = async (req: Request, res: Response) => {
 
 export const createDish = async (req: Request, res: Response) => {
   try {
-    const { name, price, ingredients, tags, restaurant } = req.body;
+    const { name, price, ingredients, tags, restaurant, img } = req.body;
 
     const newDish = await createDishHandler({
       name,
@@ -69,6 +69,7 @@ export const createDish = async (req: Request, res: Response) => {
       ingredients,
       tags,
       restaurant,
+      img,
     });
 
     res.status(201).json(newDish);

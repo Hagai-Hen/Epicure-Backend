@@ -6,6 +6,7 @@ export interface DishInterface {
   ingredients: string;
   tags: string[];
   restaurant: string;
+  img: string;
 }
 
 export interface RestaurantInterface {

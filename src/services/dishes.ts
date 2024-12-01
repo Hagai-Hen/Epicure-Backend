@@ -26,6 +26,9 @@ export const checkUpdateDish = (dish: DishInterface) => {
   if (dish.price && dish.price < 0) {
     throw new Error("price must have positive number");
   }
+  if ((dish.img && dish.img.length < 3) || dish.img === "") {
+    throw new Error("Image must have at least 3 characters");
+  }
 };
 
 export const checkCreateDish = (dish: DishInterface) => {

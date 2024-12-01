@@ -23,6 +23,9 @@ const DishSchema = new mongoose.Schema({
     ref: "Restaurant",
     required: true,
   },
+  img: {
+    type: String,
+  }
 });
 
 const Dish = mongoose.model("Dish", DishSchema);
