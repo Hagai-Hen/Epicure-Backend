@@ -46,10 +46,7 @@ export const deleteRestaurant = async (req: Request, res: Response) => {
     const id = req.params.id;
     const deletedRestaurant = await deleteRestaurantHandler(id);
 
-    res.status(200).json({
-      message: "Restaurant deleted successfully",
-      restaurant: deletedRestaurant,
-    });
+    res.status(200).json(deletedRestaurant);
   } catch (error) {
     console.log("Error deleting Restaurant: ", (error as Error).message);
     res.status(500).send({ error: "Internal server error" });

@@ -65,3 +65,28 @@ export const createChefHandler = async (chef: ChefInterface) => {
 
   return newChef;
 };
+
+export const removeSpecificRestaurantHandler = async (
+  id: string,
+  restaurantId: string
+) => {
+  const chef = await getChefHandler(id);
+
+  if (!chef || !Array.isArray(chef.restaurants)) {
+    throw new Error("Chef data is invalid or restaurants are not an array");
+  }
+
+  const newChefRestaurants = chef.restaurants.filter((rest) => {
+    return rest.toString().trim() !== restaurantId.trim();
+  });
+
+  if (newChefRestaurants.length !== chef.restaurants.length) {
+    const updatedChef = await updateChefHandler(id, {
+      ...chef,
+      restaurants: newChefRestaurants,
+    });
+    return updatedChef;
+  } else {
+    return chef;
+  }
+};

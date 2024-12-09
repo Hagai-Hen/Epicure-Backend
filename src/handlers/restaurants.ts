@@ -4,7 +4,8 @@ import {
   checkUpdateRestaurant,
 } from "../services/restaurants";
 import { RestaurantInterface } from "../interfaces";
-import { getChefHandler, updateChefHandler } from "./chefs";
+import { getChefHandler, removeSpecificRestaurantHandler, updateChefHandler } from "./chefs";
+import { Types } from "mongoose";
 
 export const getAllRestaurantsHandler = async () => {
   const restaurants = await Restaurant.find({});
@@ -41,9 +42,15 @@ export const updateRestaurantHandler = async (
 
 export const deleteRestaurantHandler = async (id: string) => {
   const restaurant = await Restaurant.findByIdAndDelete(id);
-  if (!restaurant) {
-    throw new Error("Restaurant not exists");
+    if (!restaurant) {
+    throw new Error("Restaurant does not exist");
   }
+  const chef = restaurant?.chef;
+    if (!chef) {
+    console.log("Restaurant has no associated chef");
+    return restaurant;
+  }
+  const chefId = await removeSpecificRestaurantHandler(chef.toString(), id);
   return restaurant;
 };
 
