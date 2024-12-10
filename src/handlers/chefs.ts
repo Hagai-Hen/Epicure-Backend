@@ -20,7 +20,7 @@ export const getChefHandler = async (id: string) => {
 
 export const updateChefHandler = async (
   id: string,
-  updateData: ChefInterface
+  updateData: any
 ) => {
   const chef = await Chef.findById(id);
   if (!chef) {
@@ -28,7 +28,6 @@ export const updateChefHandler = async (
   }
 
   checkUpdateChef(updateData);
-
   const updatedChef = await Chef.findByIdAndUpdate(id, updateData, {
     new: true,
   });
@@ -77,12 +76,11 @@ export const removeSpecificRestaurantHandler = async (
   }
 
   const newChefRestaurants = chef.restaurants.filter((rest) => {
-    return rest.toString().trim() !== restaurantId.trim();
+    return String(rest).trim() !== String(restaurantId).trim();
   });
 
   if (newChefRestaurants.length !== chef.restaurants.length) {
     const updatedChef = await updateChefHandler(id, {
-      ...chef,
       restaurants: newChefRestaurants,
     });
     return updatedChef;

@@ -5,6 +5,7 @@ import {
   getRestaurant,
   updateRestaurant,
   deleteRestaurant,
+  getAllRestaurantsPage,
 } from "../../controllers/restaurants";
 
 const router = express.Router();
@@ -86,6 +87,8 @@ router.get("/get/:id", getRestaurant);
  *         description: Internal server error
  */
 router.get("/getall", getAllRestaurants);
+
+router.get("/get", getAllRestaurantsPage);
 
 /**
  * @swagger

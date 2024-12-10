@@ -5,10 +5,19 @@ import {
 } from "../services/restaurants";
 import { RestaurantInterface } from "../interfaces";
 import { getChefHandler, removeSpecificRestaurantHandler, updateChefHandler } from "./chefs";
-import { Types } from "mongoose";
 
 export const getAllRestaurantsHandler = async () => {
   const restaurants = await Restaurant.find({});
+  if (!restaurants) {
+    throw new Error("Restaurants are empty");
+  }
+  return restaurants;
+};
+
+export const getAllRestaurantsPageHandler = async (skip: number, limit: number) => {
+  const restaurants = await Restaurant.find()
+      .skip(skip)
+      .limit(limit);
   if (!restaurants) {
     throw new Error("Restaurants are empty");
   }
