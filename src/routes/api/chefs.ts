@@ -5,6 +5,7 @@ import {
   getAllChefs,
   updateChef,
   deleteChef,
+  getAllChefsPage,
 } from "../../controllers/chefs";
 
 const router = express.Router();
@@ -86,6 +87,8 @@ router.get("/get/:id", getChef);
  *         description: Internal server error
  */
 router.get("/getall", getAllChefs);
+
+router.get("/get", getAllChefsPage);
 
 /**
  * @swagger

@@ -1,6 +1,7 @@
 import Dish from "../models/Dish";
 import { checkUpdateDish, checkCreateDish } from "../services/dishes";
 import { DishInterface } from "../interfaces";
+import Restaurant from "../models/Restaurant";
 
 export const getAllDishesHandler = async () => {
   const dishes = await Dish.find({});
@@ -26,6 +27,12 @@ export const updateDishHandler = async (
   if (!dish) {
     throw new Error("Dish not exists");
   }
+
+  const oldRestaurant = updateData.restaurant;
+  if (updateData.restaurant && updateData.restaurant.id) {
+    updateData.restaurant = updateData.restaurant.id; // Set the restaurant to just the id
+  }
+
   checkUpdateDish(updateData);
   if (updateData.tags) {
     updateData.tags = updateData.tags.map((tag: string) => tag.toLowerCase());
@@ -34,7 +41,7 @@ export const updateDishHandler = async (
   const updatedDish = await Dish.findByIdAndUpdate(id, updateData, {
     new: true,
   });
-  return updatedDish;
+  return {...updateData, restaurant: oldRestaurant};
 };
 
 export const deleteDishHandler = async (id: string) => {
@@ -68,4 +75,15 @@ export const createDishHandler = async (dish: DishInterface) => {
 
   await newDish.save();
   return newDish;
+};
+
+export const getAllDishesPageHandler = async (
+  skip: number,
+  limit: number
+) => {
+  const dishes = await Dish.find().skip(skip).limit(limit);
+  if (!dishes) {
+    throw new Error("dishes are empty");
+  }
+  return dishes;
 };

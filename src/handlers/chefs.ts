@@ -18,20 +18,22 @@ export const getChefHandler = async (id: string) => {
   return chef;
 };
 
-export const updateChefHandler = async (
-  id: string,
-  updateData: any
-) => {
+export const updateChefHandler = async (id: string, updateData: any) => {
   const chef = await Chef.findById(id);
   if (!chef) {
     throw new Error("Chef not exists");
   }
-
+  const oldRestaurants = updateData.restaurants;
+  if (updateData.restaurants && Array.isArray(updateData.restaurants)) {
+    updateData.restaurants = updateData.restaurants.map((restaurant: any) => {
+      return restaurant.id ? restaurant.id : restaurant;
+    });
+  }
   checkUpdateChef(updateData);
   const updatedChef = await Chef.findByIdAndUpdate(id, updateData, {
     new: true,
   });
-  return updatedChef;
+  return {...updateData, restaurants: oldRestaurants};
 };
 
 export const deleteChefHandler = async (id: string) => {
@@ -87,4 +89,12 @@ export const removeSpecificRestaurantHandler = async (
   } else {
     return chef;
   }
+};
+
+export const getAllChefsPageHandler = async (skip: number, limit: number) => {
+  const chefs = await Chef.find().skip(skip).limit(limit);
+  if (!chefs) {
+    throw new Error("chefs are empty");
+  }
+  return chefs;
 };

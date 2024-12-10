@@ -5,6 +5,7 @@ import {
   getAllDishes,
   updateDish,
   deleteDish,
+  getAllDishesPage,
 } from "../../controllers/dishes";
 
 const router = express.Router();
@@ -73,6 +74,8 @@ router.post("/create", createDish);
  *         description: Internal server error
  */
 router.get("/get/:id", getDish);
+
+router.get("/get", getAllDishesPage);
 
 /**
  * @swagger

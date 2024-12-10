@@ -5,7 +5,7 @@ export interface DishInterface {
   price: number;
   ingredients: string;
   tags: string[];
-  restaurant: string;
+  restaurant: any;
   img: string;
 }
 

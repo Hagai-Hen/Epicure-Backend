@@ -3,9 +3,11 @@ import {
   createChefHandler,
   deleteChefHandler,
   getAllChefsHandler,
+  getAllChefsPageHandler,
   getChefHandler,
   updateChefHandler,
 } from "../handlers/chefs";
+import Chef from "../models/Chef";
 
 export const getAllChefs = async (req: Request, res: Response) => {
   try {
@@ -13,6 +15,31 @@ export const getAllChefs = async (req: Request, res: Response) => {
     res.status(200).json(Chefs);
   } catch (error) {
     console.log("error getting Chefs: ", (error as Error).message);
+    res.status(500).send({ error: "Internal server error" });
+  }
+};
+
+export const getAllChefsPage = async (req: Request, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+
+    const skip = (page - 1) * limit;
+    const chefs = await getAllChefsPageHandler(skip, limit);
+    const totalChefs = await getChefsCount();
+    const totalPages = Math.ceil(totalChefs / limit);
+
+    res.status(200).json({
+      chefs,
+      pagination: {
+        totalItems: totalChefs,
+        totalPages,
+        currentPage: page,
+        perPage: limit,
+      },
+    });
+  } catch (error) {
+    console.log("error getting chefs: ", (error as Error).message);
     res.status(500).send({ error: "Internal server error" });
   }
 };
@@ -68,5 +95,14 @@ export const createChef = async (req: Request, res: Response) => {
   } catch (error) {
     console.log("error create chef: ", (error as Error).message);
     res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getChefsCount = async () => {
+  try {
+    const count = await Chef.countDocuments();
+    return count;
+  } catch (error) {
+    throw new Error("Error counting chefs");
   }
 };
