@@ -11,7 +11,6 @@ export const createUserHandler = async (
   
     checkCreateUser(user);
 
-    //TODO: decrypt password (additional service)
     const uniqueCheck = await User.findOne({ email: user.email });
     if (uniqueCheck) {
         throw new Error("Email already exists, please try choose another");
