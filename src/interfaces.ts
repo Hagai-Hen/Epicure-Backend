@@ -23,3 +23,11 @@ export interface ChefInterface {
   description: string;
   restaurants: Types.ObjectId[];
 }
+
+export interface UserInterface {
+  name: string;
+  surname: string;
+  email: string;
+  password: string;
+  role: string;
+}
