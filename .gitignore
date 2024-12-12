@@ -1,3 +1,5 @@
 .env
 node_modules
-.pem
+private.pem
+rsa_private.pem
+public.pem

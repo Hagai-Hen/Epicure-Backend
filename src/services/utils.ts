@@ -1,7 +1,6 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
 
-
 const generateToken = (userId: any) => {
   try {
     const jwtSecret = process.env.JWT_SECRET;
@@ -10,7 +9,7 @@ const generateToken = (userId: any) => {
       throw new Error("JWT_SECRET environment variable is not defined");
     }
     const token = jwt.sign({ userId }, jwtSecret, {
-      expiresIn: "1m",
+      expiresIn: "1d",
     });
     if (!token) {
       throw new Error("Error in generating jwt");

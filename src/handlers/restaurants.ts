@@ -68,12 +68,15 @@ export const deleteRestaurantHandler = async (id: string) => {
   if (!restaurant) {
     throw new Error("Restaurant does not exist");
   }
+  console.log("restaurant", restaurant);
   const chef = restaurant?.chef;
   if (!chef) {
     console.log("Restaurant has no associated chef");
     return restaurant;
   }
-  // const chefId = await removeSpecificRestaurantHandler(chef.toString(), id);
+
+  console.log("chef", chef);
+  const chefId = await removeSpecificRestaurantHandler(chef.toString(), id);
   return restaurant;
 };
 

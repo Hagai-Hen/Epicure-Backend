@@ -1,6 +1,7 @@
 import Chef from "../models/Chef";
 import { checkCreateChef, checkUpdateChef } from "../services/chefs";
 import { ChefInterface } from "../interfaces";
+import { updateDishHandler } from "./dishes";
 
 export const getAllChefsHandler = async () => {
   const chefs = await Chef.find({});
@@ -33,7 +34,7 @@ export const updateChefHandler = async (id: string, updateData: any) => {
   const updatedChef = await Chef.findByIdAndUpdate(id, updateData, {
     new: true,
   });
-  return {...updateData, restaurants: oldRestaurants};
+  return { ...updateData, restaurants: oldRestaurants };
 };
 
 export const deleteChefHandler = async (id: string) => {
@@ -81,9 +82,10 @@ export const removeSpecificRestaurantHandler = async (
     return String(rest).trim() !== String(restaurantId).trim();
   });
 
+
   if (newChefRestaurants.length !== chef.restaurants.length) {
     const updatedChef = await updateChefHandler(id, {
-      restaurants: newChefRestaurants,
+      restaurants: newChefRestaurants.map((rest) => rest.toString()),
     });
     return updatedChef;
   } else {
