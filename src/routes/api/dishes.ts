@@ -7,6 +7,8 @@ import {
   deleteDish,
   getAllDishesPage,
 } from "../../controllers/dishes";
+import { protectUserRoutes } from "../../middlewares/protectUserRoutes";
+import { protectAdminRoutes } from "../../middlewares/protectAdminRoutes";
 
 const router = express.Router();
 
@@ -48,7 +50,7 @@ const router = express.Router();
  *       500:
  *         description: Internal server error
  */
-router.post("/create", createDish);
+router.post("/create", protectUserRoutes, createDish);
 
 /**
  * @swagger
@@ -135,7 +137,7 @@ router.get("/getall", getAllDishes);
  *       500:
  *         description: Internal server error
  */
-router.put("/update/:id", updateDish);
+router.put("/update/:id", protectAdminRoutes, updateDish);
 
 /**
  * @swagger
@@ -160,6 +162,6 @@ router.put("/update/:id", updateDish);
  *       500:
  *         description: Internal server error
  */
-router.delete("/delete/:id", deleteDish);
+router.delete("/delete/:id", protectAdminRoutes, deleteDish);
 
 export default router;

@@ -7,6 +7,8 @@ import {
   deleteChef,
   getAllChefsPage,
 } from "../../controllers/chefs";
+import { protectUserRoutes } from "../../middlewares/protectUserRoutes";
+import { protectAdminRoutes } from "../../middlewares/protectAdminRoutes";
 
 const router = express.Router();
 
@@ -45,7 +47,7 @@ const router = express.Router();
  *       500:
  *         description: Internal server error
  */
-router.post("/create", createChef);
+router.post("/create", protectUserRoutes, createChef);
 
 /**
  * @swagger
@@ -130,7 +132,7 @@ router.get("/get", getAllChefsPage);
  *       500:
  *         description: Internal server error
  */
-router.put("/update/:id", updateChef);
+router.put("/update/:id", protectAdminRoutes, updateChef);
 
 /**
  * @swagger
@@ -155,6 +157,6 @@ router.put("/update/:id", updateChef);
  *       500:
  *         description: Internal server error
  */
-router.delete("/delete/:id", deleteChef);
+router.delete("/delete/:id", protectAdminRoutes, deleteChef);
 
 export default router;

@@ -7,6 +7,8 @@ import {
   deleteRestaurant,
   getAllRestaurantsPage,
 } from "../../controllers/restaurants";
+import { protectAdminRoutes } from "../../middlewares/protectAdminRoutes";
+import { protectUserRoutes } from "../../middlewares/protectUserRoutes";
 
 const router = express.Router();
 
@@ -45,7 +47,7 @@ const router = express.Router();
  *       500:
  *         description: Internal server error
  */
-router.post("/create", createRestaurant);
+router.post("/create", protectUserRoutes, createRestaurant);
 
 /**
  * @swagger
@@ -130,7 +132,7 @@ router.get("/get", getAllRestaurantsPage);
  *       500:
  *         description: Internal server error
  */
-router.put("/update/:id", updateRestaurant);
+router.put("/update/:id", protectAdminRoutes, updateRestaurant);
 
 /**
  * @swagger
@@ -155,6 +157,6 @@ router.put("/update/:id", updateRestaurant);
  *       500:
  *         description: Internal server error
  */
-router.delete("/delete/:id", deleteRestaurant);
+router.delete("/delete/:id", protectAdminRoutes, deleteRestaurant);
 
 export default router;

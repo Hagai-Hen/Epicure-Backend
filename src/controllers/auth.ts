@@ -13,25 +13,27 @@ export const login = async (req: Request, res: Response) => {
     });
 
     const isMatch = await bcrypt.compare(password, user?.password || "");
-    console.log("isMatch!!", isMatch);
     if (!user || !isMatch) {
       res.status(400).send({ error: "Invalid username or password" });
       return;
     }
     const token = generateToken(user?._id, res);
 
-    res.status(200).json(token);
+    res.status(200).json({
+      authUser: {
+        _id: user._id,
+        name: user.name,
+      },
+      token,
+    });
   } catch (err) {
     console.log("Error during login: ", (err as Error).message);
     res.status(500).send({ error: "Internal server error" });
   }
 };
 
-// Handling logout
 export const logout = async (req: Request, res: Response) => {
   try {
-    // delete the token from the cookie
-    res.cookie("jwt", "", { maxAge: 0 });
     res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
     console.log("Error during logout: ", (err as Error).message);

@@ -70,6 +70,7 @@ export const updateRestaurant = async (req: Request, res: Response) => {
 
 export const deleteRestaurant = async (req: Request, res: Response) => {
   try {
+    console.log("reach!!!!!!");
     const id = req.params.id;
     console.log("id", id);
     const deletedRestaurant = await deleteRestaurantHandler(id);
