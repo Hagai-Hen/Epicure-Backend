@@ -1,23 +1,13 @@
 import User from "../models/User";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import generateToken from "../services/utils";
+import { LoginHandler, signUpHandler } from "../handlers/auth";
 
-export const login = async (req: Request, res: Response) => {
+export const logIn = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    // in handler
-    const user = await User.findOne({
-      email,
-    });
-
-    const isMatch = await bcrypt.compare(password, user?.password || "");
-    if (!user || !isMatch) {
-      res.status(400).send({ error: "Invalid username or password" });
-      return;
-    }
-    const token = generateToken(user?._id, res);
+    const {user, token} = await LoginHandler(email, password);
 
     res.status(200).json({
       authUser: {
@@ -32,7 +22,7 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-export const logout = async (req: Request, res: Response) => {
+export const logOut = async (req: Request, res: Response) => {
   try {
     res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
@@ -40,3 +30,25 @@ export const logout = async (req: Request, res: Response) => {
     res.status(500).send({ error: "Internal server error" });
   }
 };
+
+export const signUp = async (req: Request, res: Response) => {
+  try {
+    const { name, surname, email, password, role } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = await signUpHandler({
+      name,
+      surname,
+      email,
+      password: hashedPassword,
+      role,
+    });
+
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.log("error create user: ", (error as Error).message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+

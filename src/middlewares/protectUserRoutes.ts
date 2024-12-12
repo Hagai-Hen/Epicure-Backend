@@ -11,9 +11,6 @@ export const protectUserRoutes = async (
     const token = req.headers.authorization?.split(" ")[1] || "";
     const jwtSecret = process.env.JWT_SECRET || "";
 
-    console.log("token", token);
-    console.log("jwtSecret", jwtSecret);
-
     if (!token) {
       res.status(401).json({ message: "No token, authentication denied" });
       return;
@@ -21,7 +18,6 @@ export const protectUserRoutes = async (
     const cleanedToken = token.replace(/^"|"$/g, "");
 
     const decoded = jwt.verify(cleanedToken, jwtSecret) as JwtPayload;
-    console.log("decoded!!");
     if (!decoded) {
       res.status(401).json({ message: "Invalid token, authentication denied!" });
       return;

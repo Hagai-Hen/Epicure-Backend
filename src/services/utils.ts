@@ -1,8 +1,8 @@
 import { Response } from "express";
 import jwt from "jsonwebtoken";
-import { ObjectId } from "mongoose";
 
-const generateToken = (userId: any, res: Response) => {
+
+const generateToken = (userId: any) => {
   try {
     const jwtSecret = process.env.JWT_SECRET;
 
@@ -10,7 +10,7 @@ const generateToken = (userId: any, res: Response) => {
       throw new Error("JWT_SECRET environment variable is not defined");
     }
     const token = jwt.sign({ userId }, jwtSecret, {
-      expiresIn: "15d",
+      expiresIn: "1m",
     });
     if (!token) {
       throw new Error("Error in generating jwt");
@@ -18,7 +18,6 @@ const generateToken = (userId: any, res: Response) => {
     return token;
   } catch (error) {
     console.log("Error in generating token", (error as Error).message);
-    res.status(500).send("Internal Server Error");
   }
 };
 
