@@ -1,6 +1,6 @@
 import { UserInterface } from "../interfaces";
 import User from "../models/User";
-import { checkSignUp } from "../services/auth";
+import { checkSignUp, decryptPassword } from "../services/auth";
 import bcrypt from "bcryptjs";
 import generateToken from "../services/utils";
 
@@ -38,7 +38,9 @@ export const LoginHandler = async (email: string, password: string) => {
     email,
   });
 
-  const isMatch = await bcrypt.compare(password, user?.password || "");
+  const decryptedPassword = decryptPassword(password);
+
+  const isMatch = await bcrypt.compare(decryptedPassword, user?.password || "");
   if (!user || !isMatch) {
     throw new Error("Invalid username or password");
   }

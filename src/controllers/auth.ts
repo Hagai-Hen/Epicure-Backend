@@ -2,12 +2,12 @@ import User from "../models/User";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { LoginHandler, signUpHandler } from "../handlers/auth";
+import { decryptPassword } from "../services/auth";
 
 export const logIn = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-
-    const {user, token} = await LoginHandler(email, password);
+    const { user, token } = await LoginHandler(email, password);
 
     res.status(200).json({
       authUser: {
@@ -51,4 +51,3 @@ export const signUp = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
-
