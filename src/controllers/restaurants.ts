@@ -40,7 +40,7 @@ export const getAllRestaurantsPage = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log("error getting restaurants: ", (error as Error).message);
-    res.status(500).send({ error: "Internal server error" });
+    res.status(500).send({ error: `internal server error: ${(error as Error).message}` });
   }
 };
 

@@ -37,10 +37,7 @@ export const getRestaurantHandler = async (id: string) => {
   return restaurant;
 };
 
-export const updateRestaurantHandler = async (
-  id: string,
-  updateData: RestaurantInterface
-) => {
+export const updateRestaurantHandler = async (id: string, updateData: any) => {
   const restaurant = await Restaurant.findById(id);
   if (!restaurant) {
     throw new Error("Restaurant not exists");
@@ -59,8 +56,8 @@ export const updateRestaurantHandler = async (
   const updatedRestaurant = await Restaurant.findByIdAndUpdate(id, updateData, {
     new: true,
   });
-  
-  return {...updateData, dishes: oldDishes};
+
+  return { ...updateData, dishes: oldDishes };
 };
 
 export const deleteRestaurantHandler = async (id: string) => {
@@ -68,14 +65,12 @@ export const deleteRestaurantHandler = async (id: string) => {
   if (!restaurant) {
     throw new Error("Restaurant does not exist");
   }
-  console.log("restaurant", restaurant);
   const chef = restaurant?.chef;
   if (!chef) {
     console.log("Restaurant has no associated chef");
     return restaurant;
   }
 
-  console.log("chef", chef);
   const chefId = await removeSpecificRestaurantHandler(chef.toString(), id);
   return restaurant;
 };

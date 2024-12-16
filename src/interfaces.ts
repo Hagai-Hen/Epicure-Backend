@@ -11,9 +11,9 @@ export interface DishInterface {
 
 export interface RestaurantInterface {
   name: string;
-  img: string;
+  img?: string | null | undefined;
   chef: string;
-  dishes: string[];
+  dishes: Types.ObjectId[];
   rate: number;
 }
 

@@ -2,7 +2,7 @@ import { RestaurantInterface } from "../interfaces";
 
 export const checkUpdateRestaurant = (restaurant: RestaurantInterface) => {
   if (
-    (restaurant.name && restaurant.name.length < 3) ||
+    (restaurant.name && restaurant.name.length < 1) ||
     restaurant.name === ""
   ) {
     throw new Error("Name must have at least 3 characters");
@@ -19,7 +19,7 @@ export const checkUpdateRestaurant = (restaurant: RestaurantInterface) => {
 };
 
 export const checkCreateRestaurant = (restaurant: RestaurantInterface) => {
-  if (!restaurant.name || restaurant.name.length < 3) {
+  if (!restaurant.name) {
     throw new Error("Name must have at least 3 characters");
   }
   if (!restaurant.chef) {

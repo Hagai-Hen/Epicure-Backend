@@ -13,6 +13,7 @@ export const logIn = async (req: Request, res: Response) => {
       authUser: {
         _id: user._id,
         name: user.name,
+        role: user.role,
       },
       token,
     });
